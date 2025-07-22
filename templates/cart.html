@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fefefe;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            margin: 20px auto;
+            width: 80%;
+            font-weight: bold;
+        }
+
+        .links, .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .links a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 6px 12px;
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 4px;
+        }
+
+        .update-btn {
+            background-color: orange;
+            margin-top: 20px;
+        }
+
+        .update-btn:hover {
+            background-color: darkorange;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Your Cart</h2>
+
+    <form method="POST" action="/update_cart">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Price (₹)</th>
+                <th>Quantity</th>
+                <th>Subtotal (₹)</th>
+                <th>Action</th>
+            </tr>
+            {% for food_id, item in cart.items() %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    <input type="number" name="quantity_{{ food_id }}" value="{{ item.quantity }}" min="1">
+                </td>
+                <td>{{ item.price * item.quantity }}</td>
+                <td>
+                    <button type="submit" name="remove" value="{{ food_id }}">❌ Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="total">
+            Total: ₹{{ total }}
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="update-btn">🔁 Update Cart</button>
+        </div>
+    </form>
+
+    <div class="links">
+        <a href="/menu">← Continue Shopping</a>
+        <a href="/">🏠 Back to Home</a>
+    </div>
+
+</body>
+</html>

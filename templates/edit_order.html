@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Order</title>
+</head>
+<body>
+    <h1>Edit Order</h1>
+    <form method="POST" action="/update/{{ order['id'] }}">
+        <label>Item:</label>
+        <input type="text" name="item" value="{{ order['item'] }}" required><br><br>
+
+        <label>Quantity:</label>
+        <input type="number" name="qty" value="{{ order['qty'] }}" required><br><br>
+
+        <button type="submit">Update Order</button>
+    </form>
+    <br>
+    <a href="/orders">Back to Orders</a>
+</body>
+</html>

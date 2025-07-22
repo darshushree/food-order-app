@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to FoodApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .nav-buttons a {
+            text-decoration: none;
+        }
+
+        .nav-buttons button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .menu-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .menu-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .order-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .order-btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .view-btn {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #5936a8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello Darshana! 👋</h1>
+    <p>Your Flask food order app is running beautifully 🍕🎉</p>
+
+    <div class="nav-buttons">
+        <a href="/menu"><button class="menu-btn">🍽️ View Menu</button></a>
+        <a href="/order"><button class="order-btn">📝 Place Order</button></a>
+        <a href="/orders"><button class="view-btn">📋 View All Orders</button></a>
+    </div>
+</body>
+</html>
+

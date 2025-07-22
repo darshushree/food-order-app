@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fffdf6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .menu-list {
+            max-width: 700px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item span {
+            font-size: 18px;
+            color: #444;
+        }
+
+        .menu-item .price {
+            font-weight: bold;
+            color: #2b9348;
+        }
+
+        .menu-item form {
+            display: inline;
+        }
+
+        .add-button {
+            background-color: #2b9348;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background-color: #247b3c;
+        }
+
+        .link-group {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .link-group a {
+            display: inline-block;
+            margin: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .link-group a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍽️ Welcome to Our Menu</h1>
+
+    <div class="menu-list">
+
+        <!-- Pizza -->
+        <div class="menu-item">
+            <span>🍕 Pizza - <span class="price">₹200</span></span>
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="food_id" value="1">
+                <input type="hidden" name="name" value="Pizza">
+                <input type="hidden" name="price" value="200">
+                <button class="add-button" type="submit">Add to Cart</button>
+            </form>
+        </div>
+
+        <!-- Burger -->
+        <div class="menu-item">
+            <span>🍔 Burger - <span class="price">₹150</span></span>
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="food_id" value="2">
+                <input type="hidden" name="name" value="Burger">
+                <input type="hidden" name="price" value="150">
+                <button class="add-button" type="submit">Add to Cart</button>
+            </form>
+        </div>
+
+        <!-- Fries -->
+        <div class="menu-item">
+            <span>🍟 Fries - <span class="price">₹80</span></span>
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="food_id" value="3">
+                <input type="hidden" name="name" value="Fries">
+                <input type="hidden" name="price" value="80">
+                <button class="add-button" type="submit">Add to Cart</button>
+            </form>
+        </div>
+
+        <!-- Cold Drink -->
+        <div class="menu-item">
+            <span>🥤 Cold Drink - <span class="price">₹50</span></span>
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="food_id" value="4">
+                <input type="hidden" name="name" value="Cold Drink">
+                <input type="hidden" name="price" value="50">
+                <button class="add-button" type="submit">Add to Cart</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="link-group">
+        <a href="/">🏠 Back to Home</a>
+        <a href="/cart">🛒 View Cart</a>
+    </div>
+</body>
+</html>
