@@ -11,12 +11,17 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# ✅ Home Page
+# ✅ Splash Screen Route (FIRST PAGE)
 @app.route('/')
+def splash():
+    return render_template('splash.html')
+
+# ✅ Home Page
+@app.route('/home')
 def home():
     return render_template('home.html')
 
-# ✅ Menu Page (you can show all food items here)
+# ✅ Menu Page
 @app.route('/menu')
 def menu():
     return render_template('menu.html')
@@ -111,7 +116,7 @@ def forgot_password():
 
     return render_template('forgot_password.html')
 
-# ✅ LOGOUT (clears cart too)
+# ✅ LOGOUT
 @app.route('/logout')
 def logout():
     session.clear()
@@ -195,7 +200,7 @@ def cart():
     total = sum(item['price'] * item['quantity'] for item in cart.values())
     return render_template('cart.html', cart=cart, total=total)
 
-# ✅ Initialize Users Table (optional)
+# ✅ Initialize Users Table
 @app.route('/init-users')
 def init_users():
     conn = get_db_connection()
@@ -211,12 +216,12 @@ def init_users():
     conn.commit()
     conn.close()
     return '✅ Users table created!'
+
 # ✅ Update or Remove Items from Cart
 @app.route('/update_cart', methods=['POST'])
 def update_cart():
     cart = session.get('cart', {})
 
-    # Remove item if 'remove' was clicked
     remove_id = request.form.get('remove')
     if remove_id:
         cart.pop(remove_id, None)
@@ -224,7 +229,6 @@ def update_cart():
         flash('Item removed from cart.')
         return redirect('/cart')
 
-    # Update quantities
     for food_id in list(cart.keys()):
         qty_field = f'quantity_{food_id}'
         if qty_field in request.form:
@@ -233,12 +237,11 @@ def update_cart():
                 if new_qty > 0:
                     cart[food_id]['quantity'] = new_qty
             except ValueError:
-                pass  # Ignore invalid input
+                pass
 
     session['cart'] = cart
     flash('Cart updated successfully!')
     return redirect('/cart')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
