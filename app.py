@@ -9,8 +9,11 @@ app.secret_key = os.environ.get('SECRET_KEY', 'fallback_key_here')
 
 DATABASE = 'database.db'
 
+# ✅ Named columns access
 def get_db():
-    return sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # ✅ INIT DB
 def init_db():
@@ -76,7 +79,7 @@ def login():
         password = request.form['password']
         conn = get_db()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        if user and check_password_hash(user[2], password):
+        if user and check_password_hash(user['password'], password):
             session['username'] = username
             return redirect('/menu')
         flash('Invalid credentials!')
@@ -96,7 +99,7 @@ def forgot_password():
         new_password = request.form['new_password']
         conn = get_db()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        if user and user[4] == answer:
+        if user and user['security_answer'] == answer:
             hashed_pw = generate_password_hash(new_password)
             conn.execute('UPDATE users SET password = ? WHERE username = ?', (hashed_pw, username))
             conn.commit()
@@ -148,7 +151,7 @@ def checkout():
     cart_items = conn.execute('SELECT * FROM cart WHERE username = ?', (session['username'],)).fetchall()
     for item in cart_items:
         conn.execute('INSERT INTO orders (username, item, quantity, timestamp) VALUES (?, ?, ?, ?)',
-                     (session['username'], item[2], item[3], datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+                     (session['username'], item['item'], item['quantity'], datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     conn.execute('DELETE FROM cart WHERE username = ?', (session['username'],))
     conn.commit()
     flash('Order placed successfully!')
