@@ -11,6 +11,37 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+# ✅ Auto-create Tables on Startup
+def init_db():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            security_question TEXT,
+            security_answer TEXT
+        )
+    ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            item TEXT NOT NULL,
+            qty INTEGER NOT NULL
+        )
+    ''')
+    # Optional: Insert default user
+    user = conn.execute('SELECT * FROM users WHERE username = ?', ('testuser',)).fetchone()
+    if not user:
+        conn.execute(
+            'INSERT INTO users (username, password_hash, security_question, security_answer) VALUES (?, ?, ?, ?)',
+            ('testuser', generate_password_hash('test123'), 'Your favorite food?', 'Pizza')
+        )
+    conn.commit()
+    conn.close()
+
+init_db()
+
 # ✅ Splash Screen Route (FIRST PAGE)
 @app.route('/')
 def splash():
@@ -199,23 +230,6 @@ def cart():
     cart = session.get('cart', {})
     total = sum(item['price'] * item['quantity'] for item in cart.values())
     return render_template('cart.html', cart=cart, total=total)
-
-# ✅ Initialize Users Table
-@app.route('/init-users')
-def init_users():
-    conn = get_db_connection()
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            security_question TEXT,
-            security_answer TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
-    return '✅ Users table created!'
 
 # ✅ Update or Remove Items from Cart
 @app.route('/update_cart', methods=['POST'])
