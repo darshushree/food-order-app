@@ -46,10 +46,16 @@ def init_db():
         ''')
         conn.commit()
 
-# ✅ Redirect root to menu
+# ✅ Root shows splash page
 @app.route('/')
-def index():
-    return redirect('/menu')
+def splash():
+    return render_template('splash.html')
+
+@app.route('/home')
+def home():
+    if 'username' not in session:
+        return redirect('/login')
+    return render_template('home.html', username=session['username'])
 
 @app.route('/menu')
 def menu():
@@ -82,7 +88,7 @@ def login():
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         if user and check_password_hash(user['password'], password):
             session['username'] = username
-            return redirect('/menu')
+            return redirect('/home')  # ✅ redirect to home instead of menu
         flash('Invalid credentials!')
     return render_template('login.html')
 
