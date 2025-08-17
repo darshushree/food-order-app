@@ -46,9 +46,10 @@ def init_db():
         ''')
         conn.commit()
 
+# ✅ Redirect root to menu
 @app.route('/')
-def splash():
-    return render_template('splash.html')
+def index():
+    return redirect('/menu')
 
 @app.route('/menu')
 def menu():
@@ -181,9 +182,6 @@ def edit_order(id):
         return redirect('/admin')
     order = conn.execute('SELECT * FROM orders WHERE id = ?', (id,)).fetchone()
     return render_template('edit_order.html', order=order)
-
-app = Flask(__name__)
-app.secret_key = 'my_super_secret_key'
 
 # ✅ Create tables when run locally
 if __name__ == '__main__':
