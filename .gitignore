@@ -1,4 +1,6 @@
-venv/
+# Ignore database files
+*.db
+
+# Ignore Python cache
 __pycache__/
 *.pyc
-orders.db
